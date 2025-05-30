@@ -5,6 +5,8 @@ import { MoreVertical, Menu, X } from "lucide-react";
 import { GetTimeInfo } from "./getTimeInfo";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import toast from 'react-hot-toast';
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 
 export default function Page() {
@@ -12,8 +14,10 @@ export default function Page() {
   const category = decodeURIComponent(params.category);
   const pathname = usePathname();
 
-  const { user } = useUser();
+  const { user, isSignedIn } = useUser();
+  const router = useRouter();
 
+  const [isMobile, setIsMobile] = useState(false);
   const [open, setopen] = useState(false)
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
@@ -51,6 +55,8 @@ export default function Page() {
   }, [category]);
 
   const handleImageClick = (index, img) => {
+
+
     const updated = [...mainImages];
     updated[index] = img;
     setMainImages(updated);
@@ -61,6 +67,10 @@ export default function Page() {
   // Cart item function
 
   const handleAddToCart = async (item, userId) => {
+    if (!isSignedIn) {
+      toast.error("🚫 Please login to add items to cart!");
+      return;
+    }
     const res = await fetch("/api/item", {
       method: "POST",
       headers: {
@@ -75,8 +85,9 @@ export default function Page() {
       }),
     });
 
-    const data = await res.json();
-    console.log("Added:", data);
+    await res.json();
+    toast.success("Item moved from cart!");
+
   };
 
 
@@ -84,6 +95,10 @@ export default function Page() {
 
 
   const del = async (item) => {
+    if (!isSignedIn) {
+      toast.error("🚫 Please login to Order items!");
+      return;
+    }
     try {
       // 🟢 Step 1: DELETE from cart
       const res = await fetch("/api/item", {
@@ -118,13 +133,18 @@ export default function Page() {
     } catch (error) {
       console.error("Error during delete/order:", error);
     }
+    router.push("/order-success")
   };
 
 
   return (
     <div className="flex min-h-screen  relative">
       {/* Sidebar */}
-      <div className={` md:w-[20vw] w-[50vw] z-50 bg-[#111b21] transform transition-transform duration-300 ease-in-out absolute   ${open ? "translate-x-0" : " -translate-x-full"}`}>
+      <div className={`w-[50vw] md:w-[20vw] z-50 bg-[#111b21] 
+  transition-transform duration-300 ease-in-out 
+  md:translate-x-0 md:static
+  ${open ? "translate-x-0 absolute" : "-translate-x-full absolute"}`}
+      >
         {product.length > 0 ? (
           <Sidebar />
         ) : (
@@ -133,9 +153,15 @@ export default function Page() {
               <Link href="/">
                 <span className="text-white text-2xl font-bold">EasyMart</span>
               </Link>
-              <div className="group relative">
+              <div
+              onClick={()=> setIsMobile(!isMobile)}
+            onBlur={() => { setTimeout(() => { setIsMobile(false) }, 500); }}
+              className=" relative">
                 <MoreVertical className="text-white cursor-pointer" />
-                <ul className="absolute right-0  w-48 invisible group-hover:visible bg-slate-700 rounded-xl shadow-lg z-50">
+                <ul
+              
+                 className={`absolute right-0  w-48  bg-slate-700 rounded-xl shadow-lg z-50 
+                 ${isMobile ? "" : "hidden"} `}>
                   {uniqueCategories.map((cat, i) => (
                     <li key={i}>
                       <Link
@@ -289,14 +315,13 @@ export default function Page() {
                     className="bg-green-500 text-white font-bold py-2 rounded hover:bg-green-600">
                     Add to Cart
                   </button>
-                  <Link
+                  <div
                     className="bg-orange-600 text-center text-white font-bold py-2 rounded hover:bg-orange-700"
-                    href={"/order-success"}>
+                  >
                     <button
-
                       onClick={() => del(item)}>
                       Buy Now
-                    </button></Link>
+                    </button></div>
                 </div>
               </div>
             </div>

@@ -2,6 +2,9 @@
 import { useUser } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+
 
 
 const OrderSummaryPage = () => {
@@ -39,7 +42,9 @@ const OrderSummaryPage = () => {
 
            if (!response.ok) throw new Error('Delete failed');
 
-             setshow(show => show.filter(show => show.name !== item.name))
+             setshow(show => show.filter(i => i.name !== item.name))
+             toast.success("Item removed from cart!");
+
 
     };
 
@@ -49,19 +54,14 @@ const OrderSummaryPage = () => {
     if (!isLoaded) return <p>Loading...</p>;
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            {/* User Info */}
-            <div className="flex items-center gap-4 mb-6">
-                <img
-                    src={user.imageUrl}
-                    alt="User"
-                    className="w-16 h-16 rounded-full border"
-                />
-                <div>
-                    <h2 className="text-xl font-semibold">{user.firstName}</h2>
-                    <p className="text-gray-500">{user.emailAddresses[0].emailAddress}</p>
-                </div>
-            </div>
+        <div className="max-w-4xl mx-auto p-6 ">
+
+            <Link href={"/"}><div className='h-15'>
+          <h1 className='m-5 text-3xl font-bold w-fit border p-2 rounded-full
+          bg-gradient-to-r from-blue-500 to-indigo-600 text-white  shadow-md hover:shadow-lg hover:scale-105'>Easy Mart</h1>
+            </div></Link>
+          
+
 
             {/* Cart Items */}
             <div className="bg-white p-4 rounded-lg shadow mb-6">
@@ -80,6 +80,7 @@ const OrderSummaryPage = () => {
                                     </div>
 
                                     <div
+                                    className='cursor-pointer'
                                         onClick={() => del(item)}
                                     ><img src="./cross.svg" alt="" /></div>
                                 </div>
@@ -96,13 +97,7 @@ const OrderSummaryPage = () => {
                     <span>Total</span>
                     <span>₹{total}</span>
                 </div>
-                <button
-                    onClick={del}
-                    disabled={cartItems.length === 0}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-                >
-                    Complete Order
-                </button>
+                
             </div>
         </div>
     );

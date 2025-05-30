@@ -93,12 +93,24 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
+                        <li >
+                            <Link href={"/info"}
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                Cart
+                            </Link>
+                        </li>
+                        <li >
+                            <Link href={"/order-history"}
+                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                My Order
+                            </Link>
+                        </li>
 
                     </ul>
                 </div>
                 {!isSignedIn && <button
                     onClick={openSignIn}
-                    className="md:px-5 px-2 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200"
+                    className="px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200"
                 >
                     Login
                 </button>}
