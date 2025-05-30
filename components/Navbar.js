@@ -47,7 +47,7 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`w-[92vw] flex items-center justify-between rounded-full m-[4vw] fixed top-0 px-6 py-3 bg-white shadow-md z-50 transition-all duration-500 ease-in-out
+            className={`w-[92vw] flex items-center justify-between rounded-full m-[4vw] fixed top-0 px-6 py-3 bg-white shadow-md z-50 transition-all duration-500 ease-in-out 
         ${showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}
       `}
         >
@@ -70,11 +70,11 @@ const Navbar = () => {
             </div>
 
 
-            <div className=' flex items-center gap-4'>
+            <div className=' flex items-center md:gap-4 gap-2 '>
                 <button
                     onClick={() => setOpen(!open)}
                     onBlur={() => { setTimeout(() => { setOpen(false) }, 500); }}
-                    className="relative px-5 py-2 rounded-full bg-gradient-to-r from-red-500 to-violet-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200 text-center inline-flex items-center" type="button">Products <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    className="relative md:px-5 px-2 py-2  rounded-full bg-gradient-to-r from-red-500 to-violet-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200 text-center inline-flex items-center" type="button">Products <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                     </svg>
                 </button>
@@ -98,11 +98,10 @@ const Navbar = () => {
                 </div>
                 {!isSignedIn && <button
                     onClick={openSignIn}
-                    className="px-5 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200"
+                    className="md:px-5 px-2 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200"
                 >
                     Login
                 </button>}
-
                 <UserButton
                     appearance={{
                         elements: {
