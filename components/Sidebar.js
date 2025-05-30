@@ -22,7 +22,7 @@ const Sidebar = () => {
     return (
         <>
 
-            <div className='relative  bg-[#111b21] w-[20vw] h-screen '>
+            <div className='relative  bg-[#111b21] md:w-[20vw] w-[50vw] h-screen '>
                 <div className=' flex  flex-col gap-3  '>
                     <Link href={'/'}><div className="text-3xl m-4 text-white font-bold">EasyMart</div></Link>
 
@@ -55,7 +55,7 @@ const Sidebar = () => {
                     </ul>
                 </div>
 
-                <footer className="absolute bottom-0 w-[20vw] mx-auto text-center text-gray-500 py-4 text-sm border-t mt-10">
+                <footer className="absolute bottom-0 md:w-[20vw]  mx-auto text-center text-gray-500 py-4 text-sm border-t mt-10">
                     © 2025 EasyMart. All rights reserved.
                 </footer>
             </div>

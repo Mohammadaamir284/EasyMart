@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, Menu, X } from "lucide-react";
 import { GetTimeInfo } from "./getTimeInfo";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
@@ -14,7 +14,7 @@ export default function Page() {
 
   const { user } = useUser();
 
-
+  const [open, setopen] = useState(false)
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
@@ -122,9 +122,9 @@ export default function Page() {
 
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen  relative">
       {/* Sidebar */}
-      <div className="w-[20vw] bg-[#111b21]">
+      <div className={` md:w-[20vw] w-[50vw] z-50 bg-[#111b21] transform transition-transform duration-300 ease-in-out absolute   ${open ? "translate-x-0" : " -translate-x-full"}`}>
         {product.length > 0 ? (
           <Sidebar />
         ) : (
@@ -150,7 +150,7 @@ export default function Page() {
               </div>
             </div>
 
-            <ul className="flex flex-col overflow-y-auto scrollbar-hide border h-[80vh] px-2 mt-2">
+            <ul className="flex flex-col overflow-y-auto scrollbar-hide border h-[80vh] px-2 mt-2 ">
               {categoryProducts.map((item, i) => {
 
                 const isActive = decodeURIComponent(pathname).toLowerCase() === `/${item.name.toLowerCase()}`;
@@ -173,7 +173,7 @@ export default function Page() {
 
             </ul>
 
-            <footer className="text-gray-400 text-sm text-center py-3 border-t">
+            <footer className="text-gray-400 w-full text-sm text-center py-3 border-t">
               © 2025 EasyMart. All rights reserved.
             </footer>
           </div>
@@ -181,18 +181,25 @@ export default function Page() {
       </div>
 
       {/* Main Content */}
-      <div className="w-[80vw] bg-white p-4 overflow-y-auto">
+      <div className="md:w-[80vw] w-full h-[96vh] m-2 bg-white p-4 overflow-y-auto rounded-lg border">
         {product.length > 0 && (
           <div>
-            <h2 className="text-3xl font-bold capitalize mb-4">
-              {decodeURIComponent(params.category)}
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-3xl font-bold capitalize mb-4">
+                {decodeURIComponent(params.category)}
+              </h2>
+              {open ?
+                <><span className="md:hidden block" onClick={() => setopen(!open)}>  <X size={32} /></span></> :
+                <><span className="md:hidden block" onClick={() => setopen(!open)}>  <Menu size={32} /></span></>
+              }
+            </div>
 
             {/* Grid Product Listing */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 md:gap-6 gap-2 mb-10 ">
               {product.map((item, i) => (
                 <Link key={i} href={`/${item.name}`}>
-                  <div className="bg-[#202c33b5] p-3 rounded-lg shadow hover:shadow-xl transition">
+                  <div className="bg-[#202c33b5] p-3 rounded-lg shadow hover:shadow-xl transition md:w-full 
+                  w-[42.5vw] ">
                     <img
                       src={item.image}
                       alt={item.name}
@@ -223,6 +230,20 @@ export default function Page() {
               key={index}
               className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-100 p-4 rounded-lg"
             >
+              <div className="block md:hidden relative mb-3">
+                <span
+                  onClick={() => setopen(!open)}
+                  className={`
+                    absolute top-0 md:hidden block z-50 cursor-pointer
+                     transition-all duration-300 ease-in-out
+                      ${open ? 'right-4 translate-x-0' : 'left-4 -translate-x-1'}
+                            `}
+                >
+                  {open ? <X size={32} /> : <Menu size={32} />}
+                </span>
+              </div>
+
+
               {/* Image Viewer */}
               <div>
                 <img src={mainImage} className="w-full h-96 object-fill rounded-lg" />

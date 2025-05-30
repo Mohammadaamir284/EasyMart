@@ -23,10 +23,10 @@ const page = () => {
   return (<>
 
     <Navbar />
-    <section className='bg-[#32332e] h-[94vh] my-[3vh] rounded-xl p-4 w-[94vw] mx-[3vw]'>
+    <section className='bg-[#32332e] md:h-[94vh] my-[3vh] rounded-xl p-4 md:w-[94vw] mx-[3vw]'>
       <img src="/front(1).jpeg"
         alt=""
-        className='h-[90vh] rounded-xl w-[92vw]'
+        className='md:h-[90vh] rounded-xl md:w-[92vw]'
       />
     </section>
 
