@@ -52,9 +52,11 @@ export default function OrdersPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
-            <Navbar/>
-            <h1 className="text-3xl font-bold mb-6 text-center">🛒 Complete Orders</h1>
+        <div className="min-h-screen bg-gray-50 p-3 relative">
+            <div className="absolute left-0">
+            <Navbar />
+            </div>
+            <h1 className="text-3xl mt-18 md:mt-0 font-bold mb-6 text-center">🛒 Complete Orders</h1>
 
 
             <div className="opacity-70  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
