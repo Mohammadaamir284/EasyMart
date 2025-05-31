@@ -24,12 +24,16 @@ const Navbar = () => {
             })
     }, [])
 
+
+
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
+
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
+
 
     const uniqueCategories = Array.from(new Set(products.map(item => item.category)));
 
@@ -69,13 +73,36 @@ const Navbar = () => {
                 </div>
             </div>
             <div className=' flex items-center md:gap-4 gap-2 '>
-                {isMobile && isSignedIn && <button
-                    onClick={() => setOpen(!open)}
-                    onBlur={() => { setTimeout(() => { setOpen(false) }, 500); }}
-                    className="relative md:px-5 px-2 py-2  rounded-full bg-gradient-to-r from-red-500 to-violet-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200 text-center inline-flex items-center" type="button">Products <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                    </svg>
-                </button>}
+                {isMobile && isSignedIn && (
+                    <button
+                        onClick={() => setOpen(!open)}
+                        onBlur={() => {
+                            setTimeout(() => {
+                                setOpen(false);
+                            }, 300); // Reduced to 300ms for better UX
+                        }}
+                        className="relative px-3 py-2 rounded-full bg-gradient-to-r from-red-500 to-violet-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-200 text-center inline-flex items-center"
+                        type="button"
+                    >
+                        Products
+                        <svg
+                            className="w-2.5 h-2.5 ml-2"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 10 6"
+                        >
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M1 1l4 4 4-4"
+                            />
+                        </svg>
+                    </button>
+                )}
+
                 {/* <!-- Dropdown menu --> */}
                 <div className={`z-10 ${open ? "" : "hidden"} absolute top-20 right-5 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-fit dark:bg-gray-700`}>
                     <ul className="py-2 text-sm flex flex-col  justify-items-start text-gray-700 dark:text-gray-200" >
@@ -116,12 +143,12 @@ const Navbar = () => {
                         },
                     }}
                 />
-            <Link href={"/searchbar"}>
-            <button
-                className="md:hidden p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
-                <Search size={20} className="text-gray-700" />
-            </button>
-            </Link>
+                <Link href={"/searchbar"}>
+                    <button
+                        className="md:hidden p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
+                        <Search size={20} className="text-gray-700" />
+                    </button>
+                </Link>
             </div>
         </nav>
     );
