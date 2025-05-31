@@ -9,7 +9,7 @@ import Link from 'next/link';
 const Navbar = () => {
 
     const [open, setOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(null);
     const [showNavbar, setShowNavbar] = useState(true);
     const [products, setProducts] = useState([])
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -27,13 +27,15 @@ const Navbar = () => {
 
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        const checkMobile = () => {
+            if (typeof window !== "undefined") {
+                setIsMobile(window.innerWidth < 768);
+            }
+        };
         checkMobile();
-
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
-
 
     const uniqueCategories = Array.from(new Set(products.map(item => item.category)));
 
@@ -73,7 +75,7 @@ const Navbar = () => {
                 </div>
             </div>
             <div className=' flex items-center md:gap-4 gap-2 '>
-                {isMobile && isSignedIn && (
+                {(isMobile === false || (isMobile && isSignedIn)) && (
                     <button
                         onClick={() => setOpen(!open)}
                         onBlur={() => {
