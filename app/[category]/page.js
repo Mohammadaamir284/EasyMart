@@ -154,13 +154,13 @@ export default function Page() {
                 <span className="text-white text-2xl font-bold">EasyMart</span>
               </Link>
               <div
-              onClick={()=> setIsMobile(!isMobile)}
-            onBlur={() => { setTimeout(() => { setIsMobile(false) }, 500); }}
-              className=" relative">
+                onClick={() => setIsMobile(!isMobile)}
+                onBlur={() => { setTimeout(() => { setIsMobile(false) }, 500); }}
+                className=" relative">
                 <MoreVertical className="text-white cursor-pointer" />
                 <ul
-              
-                 className={`absolute right-0  w-48  bg-slate-700 rounded-xl shadow-lg z-50 
+
+                  className={`absolute right-0  w-48  bg-slate-700 rounded-xl shadow-lg z-50 
                  ${isMobile ? "" : "hidden"} `}>
                   {uniqueCategories.map((cat, i) => (
                     <li key={i}>
@@ -175,6 +175,8 @@ export default function Page() {
                 </ul>
               </div>
             </div>
+
+
 
             <ul className="flex flex-col overflow-y-auto scrollbar-hide border h-[80vh] px-2 mt-2 ">
               {categoryProducts.map((item, i) => {
@@ -206,128 +208,131 @@ export default function Page() {
         )}
       </div>
 
-      {/* Main Content */}
-      <div className="md:w-[80vw] w-full h-[96vh] m-2 bg-white p-4 overflow-y-auto rounded-lg border">
-        {product.length > 0 && (
-          <div>
-            <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-bold capitalize mb-4">
-                {decodeURIComponent(params.category)}
-              </h2>
-              {open ?
-                <><span className="md:hidden block" onClick={() => setopen(!open)}>  <X size={32} /></span></> :
-                <><span className="md:hidden block" onClick={() => setopen(!open)}>  <Menu size={32} /></span></>
-              }
-            </div>
+      <main>
+       <Link href={"/"}> <div className="text-3xl cursor-pointer font-semibold mx-1 my-2 md:hidden block ">Easy Mart</div></Link>
+        {/* Main Content */}
+        <div className="md:w-[80vw] w-[96vw] md:h-[96vh] m-2 bg-white p-4 overflow-y-auto rounded-lg border">
+          {product.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between">
+                <h2 className="text-3xl font-bold capitalize mb-4">
+                  {decodeURIComponent(params.category)}
+                </h2>
+                {open ?
+                  <><span className="md:hidden block" onClick={() => setopen(!open)}>  <X size={32} /></span></> :
+                  <><span className="md:hidden block" onClick={() => setopen(!open)}>  <Menu size={32} /></span></>
+                }
+              </div>
 
-            {/* Grid Product Listing */}
-            <div className="grid grid-cols-2 md:grid-cols-4 md:gap-6 gap-2 mb-10 ">
-              {product.map((item, i) => (
-                <Link key={i} href={`/${item.name}`}>
-                  <div className="bg-[#202c33b5] p-3 rounded-lg shadow hover:shadow-xl transition md:w-full 
+              {/* Grid Product Listing */}
+              <div className="grid grid-cols-2 md:grid-cols-4 md:gap-6 gap-2 mb-10 ">
+                {product.map((item, i) => (
+                  <Link key={i} href={`/${item.name}`}>
+                    <div className="bg-[#202c33b5] p-3 rounded-lg shadow hover:shadow-xl transition md:w-full 
                   w-[42.5vw] ">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-40 object-cover rounded-lg mb-2"
-                    />
-                    <p className="text-white font-semibold text-center truncate">{item.name}</p>
-                    <div className="text-yellow-400 mt-2 text-lg flex justify-center">
-                      ★★★★<span className="text-gray-400">★</span>
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-40 object-cover rounded-lg mb-2"
+                      />
+                      <p className="text-white font-semibold text-center truncate">{item.name}</p>
+                      <div className="text-yellow-400 mt-2 text-lg flex justify-center">
+                        ★★★★<span className="text-gray-400">★</span>
+                      </div>
+                      <div className="flex justify-between items-center mt-2 text-white">
+                        <span className="font-bold text-xl">₹{item.price}</span>
+                        <span className="bg-red-500 text-xs px-2 py-1 rounded font-bold">10% OFF</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between items-center mt-2 text-white">
-                      <span className="font-bold text-xl">₹{item.price}</span>
-                      <span className="bg-red-500 text-xs px-2 py-1 rounded font-bold">10% OFF</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Single Product Page */}
-        {Array.isArray(names) && names.map((item, index) => {
-          const images = [item.image, item.image1, item.image2, item.image3, item.image4];
-          const mainImage = mainImages[index] || item.image;
+          {/* Single Product Page */}
+          {Array.isArray(names) && names.map((item, index) => {
+            const images = [item.image, item.image1, item.image2, item.image3, item.image4];
+            const mainImage = mainImages[index] || item.image;
 
-          return (
-            <div
-              key={index}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-100 p-4 rounded-lg"
-            >
-              <div className="block md:hidden relative mb-3">
-                <span
-                  onClick={() => setopen(!open)}
-                  className={`
+            return (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-100 p-4 rounded-lg"
+              >
+                <div className="block md:hidden relative mb-3">
+                  <span
+                    onClick={() => setopen(!open)}
+                    className={`
                     absolute top-0 md:hidden block z-50 cursor-pointer
                      transition-all duration-300 ease-in-out
                       ${open ? 'right-4 translate-x-0' : 'left-4 -translate-x-1'}
                             `}
-                >
-                  {open ? <X size={32} /> : <Menu size={32} />}
-                </span>
-              </div>
-
-
-              {/* Image Viewer */}
-              <div>
-                <img src={mainImage} className="w-full h-96 object-fill rounded-lg" />
-                <div className="flex flex-wrap justify-center mt-3 gap-2">
-                  {images.map((img, i) => (
-                    <img
-                      key={i}
-                      src={img}
-                      onClick={() => handleImageClick(index, img)}
-                      className="w-20 h-20 object-cover border rounded-lg cursor-pointer hover:scale-105 transition"
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Product Details */}
-              <div>
-                <h3 className="text-2xl font-bold mb-3">{item.name}</h3>
-                <p className="text-lg font-semibold text-green-600">Price: ₹{item.price}</p>
-                <span className="inline-block bg-red-500 text-white px-2 py-1 mt-2 rounded text-sm">
-                  10% OFF
-                </span>
-                <div className="mt-4 text-yellow-400 text-xl">★★★★☆</div>
-              </div>
-
-              {/* Purchase Section */}
-              <div className="bg-white p-4 rounded-lg border shadow">
-                <div className="text-2xl font-bold mb-3">₹{item.price}</div>
-                <p className="font-medium mb-2">
-                  FREE delivery in Delhi 110001 by <span className="text-blue-600">{time.formattedDate}</span>
-                </p>
-                <p className="text-sm text-red-500 mb-4">Order within {time.timeLeft}</p>
-                <p className="text-green-600 font-semibold mb-2">In Stock</p>
-                <p>
-                  Ships from <span className="text-blue-500">EasyMart</span>
-                </p>
-                <p>
-                  Sold by <span className="text-blue-500">Soild @ home</span>
-                </p>
-                <div className="mt-4 flex flex-col gap-3">
-                  <button
-                    onClick={() => handleAddToCart(item)}
-                    className="bg-green-500 text-white font-bold py-2 rounded hover:bg-green-600">
-                    Add to Cart
-                  </button>
-                  <div
-                    className="bg-orange-600 text-center text-white font-bold py-2 rounded hover:bg-orange-700"
                   >
+                    {open ? <X size={32} /> : <Menu size={32} />}
+                  </span>
+                </div>
+
+
+                {/* Image Viewer */}
+                <div>
+                  <img src={mainImage} className="w-full h-96 object-fill rounded-lg" />
+                  <div className="flex flex-wrap justify-center mt-3 gap-2">
+                    {images.map((img, i) => (
+                      <img
+                        key={i}
+                        src={img}
+                        onClick={() => handleImageClick(index, img)}
+                        className="w-20 h-20 object-cover border rounded-lg cursor-pointer hover:scale-105 transition"
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Product Details */}
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">{item.name}</h3>
+                  <p className="text-lg font-semibold text-green-600">Price: ₹{item.price}</p>
+                  <span className="inline-block bg-red-500 text-white px-2 py-1 mt-2 rounded text-sm">
+                    10% OFF
+                  </span>
+                  <div className="mt-4 text-yellow-400 text-xl">★★★★☆</div>
+                </div>
+
+                {/* Purchase Section */}
+                <div className="bg-white p-4 rounded-lg border shadow">
+                  <div className="text-2xl font-bold mb-3">₹{item.price}</div>
+                  <p className="font-medium mb-2">
+                    FREE delivery in Delhi 110001 by <span className="text-blue-600">{time.formattedDate}</span>
+                  </p>
+                  <p className="text-sm text-red-500 mb-4">Order within {time.timeLeft}</p>
+                  <p className="text-green-600 font-semibold mb-2">In Stock</p>
+                  <p>
+                    Ships from <span className="text-blue-500">EasyMart</span>
+                  </p>
+                  <p>
+                    Sold by <span className="text-blue-500">Soild @ home</span>
+                  </p>
+                  <div className="mt-4 flex flex-col gap-3">
                     <button
-                      onClick={() => del(item)}>
-                      Buy Now
-                    </button></div>
+                      onClick={() => handleAddToCart(item)}
+                      className="bg-green-500 text-white font-bold py-2 rounded hover:bg-green-600">
+                      Add to Cart
+                    </button>
+                    <div
+                      className="bg-orange-600 text-center text-white font-bold py-2 rounded hover:bg-orange-700"
+                    >
+                      <button
+                        onClick={() => del(item)}>
+                        Buy Now
+                      </button></div>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      </main>
     </div>
   );
 }

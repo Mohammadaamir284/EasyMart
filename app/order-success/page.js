@@ -11,7 +11,7 @@ const ordersuccess = () => {
   const router = useRouter()
  useEffect(() => {
   setTimeout(() => {
-    router.push("/order-history")
+    router.push("/")
   }, 3000); 
  
   

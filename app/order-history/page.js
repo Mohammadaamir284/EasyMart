@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
 
 
 export default function OrdersPage() {
@@ -52,6 +53,7 @@ export default function OrdersPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
+            <Navbar/>
             <h1 className="text-3xl font-bold mb-6 text-center">🛒 Complete Orders</h1>
 
 
