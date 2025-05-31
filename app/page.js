@@ -54,6 +54,8 @@ const page = () => {
                     </Link>
                   ))}
 
+                  
+
                   {hasMore && (
                     <div className="w-[200px] h-[200px] flex-shrink-0 flex items-center justify-center bg-gray-100 rounded shadow hover:bg-gray-200 text-blue-600 font-semibold text-center">
                       <Link href={`/${encodeURIComponent(category)}`}>

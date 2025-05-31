@@ -12,6 +12,8 @@ const Navbar = () => {
     const [isMobile, setIsMobile] = useState(null);
     const [showNavbar, setShowNavbar] = useState(true);
     const [products, setProducts] = useState([])
+    const [show, setShow] = useState([]);
+    const [search, setSearch] = useState("");
     const [lastScrollY, setLastScrollY] = useState(0);
 
     const { openSignIn, isSignedIn } = useClerk()
@@ -20,11 +22,14 @@ const Navbar = () => {
         fetch("/api/products/")
             .then(res => res.json())
             .then(data => {
+                setShow(data.products)
                 setProducts(data.products)
             })
     }, [])
 
-
+    const filtered = show.filter((item) =>
+        item.name?.toLowerCase().includes(search.toLowerCase())
+    );
 
     useEffect(() => {
         const checkMobile = () => {
@@ -64,13 +69,38 @@ const Navbar = () => {
       `}>
             <div className='flex items-center gap-x-10'>
                 <div className="text-2xl text-teal-950  font-bold">EasyMart</div>
-                <div className='hidden md:block'>
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-400 shadow-xl focus-within:ring-2 focus-within:ring-blue-400 transition ">
+                <div className='hidden md:block relative group'>
+                    <div className="flex  items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-400 shadow-xl focus-within:ring-2 focus-within:ring-blue-400 transition ">
                         <Search className="text-gray-500 w-5 h-5" />
                         <input
                             type="text"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search your product"
                             className="bg-transparent outline-none text-sm w-full placeholder-gray-500" />
+                    </div>
+                    <div className='absolute w-[30vw] bg-white rounded-lg  invisible group-hover:visible z-50 '>
+                        {search.trim() !== "" && (
+                            <ul className="mt-4 bg-white rounded-lg shadow-sm max-h-[300px] overflow-y-auto divide-y divide-gray-100">
+                                {filtered.length > 0 ? (
+                                    filtered.map((item, index) => (
+                                        <li key={index} className="px-3 py-2 hover:bg-gray-100">
+                                            <Link
+                                                href={`/${item.name}`}
+                                                className="block w-full truncate text-sm text-gray-800"
+                                                title={item.name}
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="px-3 py-2 text-center text-gray-500 text-sm">
+                                        No results found.
+                                    </li>
+                                )}
+                            </ul>
+                        )}
                     </div>
                 </div>
             </div>
